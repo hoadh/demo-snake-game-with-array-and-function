@@ -5,6 +5,7 @@
 let square_side = 50;
 let xPosition = 0, yPosition = 0;
 let dx = 5, dy = 0;
+let game_loop_time = 20; // ms
 
 function start_game() {
     let game = [
@@ -47,7 +48,7 @@ function moveRect() {
     context.fillRect(xPosition, yPosition, 50, 50);
 }
 
-setInterval(moveRect, 20 ); // ms
+let game_loop = setInterval(moveRect, game_loop_time );
 
 function controlDirection(event) {
 
