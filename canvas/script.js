@@ -1,8 +1,10 @@
 
 // Biến toàn cục (Global variable)
 // Khai báo bên ngoài hàm
-let xPosition = 0;
-let dx = 5;
+
+let square_side = 50;
+let xPosition = 0, yPosition = 0;
+let dx = 5, dy = 0;
 
 function start_game() {
     let game = [
@@ -15,23 +17,21 @@ function start_game() {
 
     let square_count = game.length; // đếm có bao nhiêu ô vuông (hàng)
  
-    let screen_side = 100 * square_count; // 500 (pixel)
+    let screen_side = 100 * square_count;
 
     let myCanvas = document.getElementById("game_screen"); // tham chiếu đến canvas trên màn hình
     
-    myCanvas.width = screen_side; // 500
-    myCanvas.height = screen_side; // 500
+    myCanvas.width = screen_side;
+    myCanvas.height = screen_side;
 
     let context = myCanvas.getContext("2d");
     context.fillStyle = "green"; // màu nền
 
     // Rectangle
     // Vẽ giữa màn hình game
-    // Chiều ngang màn hình / 2 - chiều ngang / 2
-    xPosition = myCanvas.width / 2 - 25
+    xPosition = yPosition = myCanvas.width / 2 - square_side / 2;
 
-    context.fillRect(xPosition, 225, 50, 50);
-    
+    context.fillRect(xPosition, yPosition, square_side, square_side);
 }
 
 
@@ -40,20 +40,11 @@ function moveRect() {
     let context = myCanvas.getContext("2d");
     context.fillStyle = "green"; // màu nền
 
-
-    // Công thức đảo hướng di chuyển
-    // dx = -dx;
-
-    // Khi nào thì đảo hướng
-
-    if (xPosition >= 500 - 50 || xPosition <= 0) {
-        dx = -dx;
-    }
-
     xPosition += dx;
+    yPosition += dy;
 
     context.clearRect(0, 0, 500, 500); // xóa toàn bộ màn hình game
-    context.fillRect(xPosition, 225, 50, 50);
+    context.fillRect(xPosition, yPosition, 50, 50);
 }
 
 setInterval(moveRect, 20 ); // ms
@@ -68,9 +59,19 @@ function controlDirection(event) {
     switch (event.keyCode) {
         case KEY_RIGHT:
             dx = 5;
+            dy = 0;
             break;
         case KEY_LEFT:
             dx = -5;
+            dy = 0;
+            break;
+        case KEY_UP:
+            dx = 0;
+            dy = -5;
+            break;
+        case KEY_DOWN:
+            dx = 0;
+            dy = 5;
             break;
     }
 }
