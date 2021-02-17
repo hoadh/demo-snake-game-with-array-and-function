@@ -6,6 +6,7 @@ let square_side = 50;
 let xPosition = 0, yPosition = 0;
 let dx = 5, dy = 0;
 let game_loop_time = 20; // ms
+let myCanvas = document.getElementById("game_screen"); // tham chiếu đến canvas trên màn hình
 
 function start_game() {
     let game = [
@@ -19,8 +20,6 @@ function start_game() {
     let square_count = game.length; // đếm có bao nhiêu ô vuông (hàng)
  
     let screen_side = 100 * square_count;
-
-    let myCanvas = document.getElementById("game_screen"); // tham chiếu đến canvas trên màn hình
     
     myCanvas.width = screen_side;
     myCanvas.height = screen_side;
@@ -37,7 +36,6 @@ function start_game() {
 
 
 function moveRect() {
-    let myCanvas = document.getElementById("game_screen"); // tham chiếu đến canvas trên màn hình
     let context = myCanvas.getContext("2d");
     context.fillStyle = "green"; // màu nền
 
@@ -46,9 +44,22 @@ function moveRect() {
 
     context.clearRect(0, 0, 500, 500); // xóa toàn bộ màn hình game
     context.fillRect(xPosition, yPosition, 50, 50);
+
+    if (should_stop_game()) stop_game();
 }
 
 let game_loop = setInterval(moveRect, game_loop_time );
+
+function stop_game() {
+    clearInterval(game_loop);
+}
+
+function should_stop_game() {
+    return (xPosition >= myCanvas.width - square_side)
+        ||  (xPosition <= 0)
+        ||  (yPosition <= 0)
+        ||  (yPosition >= myCanvas.height - square_side);
+}
 
 function controlDirection(event) {
 
